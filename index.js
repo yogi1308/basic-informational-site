@@ -8,7 +8,7 @@ const server = http.createServer(async (request, response) => {
     let parsedURL = url.parse(request.url).pathname
 
     if (parsedURL === '/') {
-        console.log('home')
+        
         try {
             const data = await read('./content/index.html')
             response.end(data)
@@ -18,7 +18,7 @@ const server = http.createServer(async (request, response) => {
         return
     }
     else if (parsedURL === '/Contact-Me') {
-        console.log('contact')
+        
         try {
             const data = await read('./content/contact-me.html')
             return response.end(data)
@@ -27,7 +27,7 @@ const server = http.createServer(async (request, response) => {
         return
     }
     else if (parsedURL === '/About') {
-        console.log('about')
+        
         try {
             const data = await read('./content/about.html')
             return response.end(data)
@@ -36,8 +36,13 @@ const server = http.createServer(async (request, response) => {
         return
     }
     else {
-        console.log('error')
-        response.end(`error`)
+        
+        try {
+            const data = await read('./content/404.html')
+            return response.end(data)
+        }
+        catch (error) {response.end(`${error}`)}
+        return
     }
 })
 
@@ -46,6 +51,4 @@ async function read(fileName) {
     catch (error) {return `${error}`}
 }
 
-server.listen(PORT, 'localhost', () => {
-  console.log(`Server running at http://localhost:${PORT}/`);
-});
+server.listen(PORT);
