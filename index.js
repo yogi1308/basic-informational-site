@@ -23,19 +23,22 @@ import fs from 'fs'
 const PORT = 3000
 const server = http.createServer((request, response) => {
     response.writeHead(200, {"content-type": 'text/html'})
-    let parsedURL = url.parse(request.url)
+    let parsedURL = url.parse(request.url).pathname
 
-    if (parsedURL.pathname === '/') {
+    if (parsedURL === '/') {
         response.end(`home`)
         return
     }
-    if (parsedURL.pathname.contains('Contact-Me')) {
+    else if (parsedURL === '/Contact-Me') {
         response.end(`contact-me`)
         return
     }
-    if (parsedURL.pathname.contains('About')) {
+    else if (parsedURL === '/About') {
         response.end(`About`)
         return
+    }
+    else {
+        response.end(`error`)
     }
 })
 
